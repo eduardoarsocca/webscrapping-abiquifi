@@ -9,6 +9,8 @@ import time
 
 # Início da contagem do tempo de execução
 start_time = time.time()
+hora_atual = time.strftime("%H:%M:%S", time.localtime(start_time))
+print("Iniciando o processo de scrapping às {hora_atual}...")
 
 # Script para coletar dados de expositores da Bio Convention 2025
 # URL base sem o número da página
@@ -84,8 +86,8 @@ def fetch_website_description_from_detail(slug: str, numeric_id: str) -> str | N
     """
     #1) tentar com slug (texto amigável)
     if slug:
-        description_url_id = f"https://convention.bio.org/exhibitors/{slug}"
-        resp = requests.get(description_url_id, headers=HEADERS)
+        description_url_slug = f"https://convention.bio.org/exhibitors/{slug}"
+        resp = requests.get(description_url_slug, headers=HEADERS)
         if resp.status_code == 200:
             soup = BeautifulSoup(resp.text, "html.parser")
             site_description = soup.select_one(
@@ -110,7 +112,8 @@ def fetch_website_description_from_detail(slug: str, numeric_id: str) -> str | N
     
 
 # Loop para percorrer as páginas (ajuste o intervalo conforme necessário)
-for page in range(1, 35):  # De 1 a 34 (inclusive)
+for page in range(1, 3):  # De 1 a 34 (inclusive) 
+    '''Executando somente uma página para exemplo. Ao total da url em questão serão 34 páginas (1,35)'''
     # Concatena o número da página na URL
     url = f'{base_url}{page}{sufixo_url}'
     print(f'Processando página {page}...')
@@ -174,9 +177,9 @@ for page in range(1, 35):  # De 1 a 34 (inclusive)
 df = pd.DataFrame(all_data)
 
 # Salva os resultados em um arquivo Excel
-df.to_excel(r'..\webscrapping abiquifi\bio_convention_2025-2.xlsx', index=False)
+df.to_excel(r'..\webscrapping bioconvention2025\bio_convention_expositores.xlsx', index=False)
 
-print("Scraping concluído! Excel gerado em 'bio_convention_2025.xlsx'.")
+print("Scraping concluído! Excel gerado em 'bio_convention_expositores.xlsx'.")
 
 #interrompendo a contagem de tempo
 stop_time = time.time()
