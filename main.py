@@ -3,15 +3,15 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 # URL base sem o número da página
-base_url = 'https://bpjw.bio.org/bio-one-one-partnering/2025-participating-companies?&sortby=title%20asc&searchgroup=29DC2FE1-exhibitors&page='
-
+base_url = 'https://convention.bio.org/exhibitors/participating-companies?&page='
+sufixo_url = "&categories=cb0aaf0e-4c13-11ee-bff906bd0f937899&categories=cb0abaa8-4c13-11ee-bff906bd0f937899&searchgroup=7CFEA488-exhibitors"
 # Lista para armazenar os dados de todas as páginas
 all_data = []
 
 # Loop para percorrer as páginas (ajuste o intervalo conforme necessário)
-for page in range(1, 15):  # De 1 a 11 (inclusive)
+for page in range(1, 35):  # De 1 a 34 (inclusive)
     # Concatena o número da página na URL
-    url = f'{base_url}{page}'
+    url = f'{base_url}{page}{sufixo_url}'
     print(f'Processando página {page}...')
 
     # Faz a requisição HTTP
@@ -54,7 +54,7 @@ for page in range(1, 15):  # De 1 a 11 (inclusive)
 df = pd.DataFrame(all_data)
 
 # Salva os resultados em um arquivo Excel
-df.to_excel(r'..\webscrapping abiquifi\empresas_listadas.xlsx', index=False)
+df.to_excel(r'..\webscrapping bioconvention2025\bio_convention_2025.xlsx', index=False)
 
 
 # # Exibe os 100 primeiros registros ordenados pelo nome da empresa
