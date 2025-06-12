@@ -10,13 +10,15 @@ import time
 # Início da contagem do tempo de execução
 start_time = time.time()
 hora_atual = time.strftime("%H:%M:%S", time.localtime(start_time))
-print("Iniciando o processo de scrapping às {hora_atual}...")
+#imprimindo o horário de inicio.
+print(f"Horário de início: {hora_atual}")
 
 # Script para coletar dados de expositores da Bio Convention 2025
 # URL base sem o número da página
 base_url = 'https://convention.bio.org/exhibitors?&page='
 sufixo_url = "&categories=cb0aaf0e-4c13-11ee-bff906bd0f937899&categories=cb0abaa8-4c13-11ee-bff906bd0f937899&searchgroup=7CFEA488-exhibitors"
-
+url_investors = 'https://convention.bio.org/partner/participating-investors?&prefilter_categories=9747CF69-9348-54A3-2C499E78B5F11EE0%2C974AC15B-E1C3-EEA8-72E5401DD2A0BD8B%2C974CAAF6-CBA0-1F69-DE7D70DBDC145459%2C975341BD-E00B-1D87-6C87ECCD48B5A1CE%2CFDBA78AD-F91A-27E3-E88F4CD949438B2E%2Ccb0ab42b-4c13-11ee-bff906bd0f937899%2Ccb0ab647-4c13-11ee-bff906bd0f937899%2C9768741E-CED1-2D63-13571AA9E794804F%2C976AF051-DBAC-DE98-16BDA38F9820AC80%2CB3FB84A9-ADC2-C2CE-839A844E1CD1BED5%2C976D9E41-994C-48D0-516CC679053A8A79&page='
+sufixo_investors = '&searchgroup=0D1C8829-exhibitors'
 # Lista para armazenar os dados de todas as páginas
 all_data = []
 
@@ -112,10 +114,10 @@ def fetch_website_description_from_detail(slug: str, numeric_id: str) -> str | N
     
 
 # Loop para percorrer as páginas (ajuste o intervalo conforme necessário)
-for page in range(1, 3):  # De 1 a 34 (inclusive) 
+for page in range(1, 5):  # De 1 a 34 (inclusive) 
     '''Executando somente uma página para exemplo. Ao total da url em questão serão 34 páginas (1,35)'''
     # Concatena o número da página na URL
-    url = f'{base_url}{page}{sufixo_url}'
+    url = f'{url_investors}{page}{sufixo_investors}'
     print(f'Processando página {page}...')
 
     # Faz a requisição HTTP
@@ -177,9 +179,9 @@ for page in range(1, 3):  # De 1 a 34 (inclusive)
 df = pd.DataFrame(all_data)
 
 # Salva os resultados em um arquivo Excel
-df.to_excel(r'..\webscrapping bioconvention2025\bio_convention_expositores.xlsx', index=False)
+df.to_excel(r'..\webscrapping bioconvention2025\bio_convention_investors.xlsx', index=False)
 
-print("Scraping concluído! Excel gerado em 'bio_convention_expositores.xlsx'.")
+print("Scraping concluído! Excel gerado em 'bio_convention_investors.xlsx'.")
 
 #interrompendo a contagem de tempo
 stop_time = time.time()
